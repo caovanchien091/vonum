@@ -3,16 +3,17 @@ import 'package:source/data/data.dart';
 import 'package:source/domain/domain.dart';
 
 class AuthRepositoryImp extends AuthRepository {
-  final AuthService _service;
+  final AuthService _remote;
+  final AuthCacheService _cache;
 
-  AuthRepositoryImp(this._service);
+  AuthRepositoryImp(this._remote, this._cache);
 
   @override
   Future<NetworkResponse<SessionEntity>> login({
     AccountParam? param,
   }) async {
     return runNetworkGuarded(
-      run: () => _service.login(param: param),
+      run: () => _remote.login(param: param),
       transform: (value) => SessionEntity.fromMap(
         value.toMap(),
       ),
@@ -22,9 +23,25 @@ class AuthRepositoryImp extends AuthRepository {
   @override
   Future<NetworkResponse<SessionEntity>> nonLogin() {
     return runNetworkGuarded(
-      run: () => _service.nonLogin(),
+      run: () => _remote.nonLogin(),
       transform: (value) => SessionEntity.fromMap(
         value.toMap(),
+      ),
+    );
+  }
+
+  @override
+  SessionEntity readSession() {
+    return SessionEntity.fromMap(
+      _cache.readSession().toMap(),
+    );
+  }
+
+  @override
+  Future<bool> writeSession(SessionEntity session) {
+    return _cache.saveSession(
+      SessionModel.fromMap(
+        session.toMap(),
       ),
     );
   }

@@ -1,4 +1,4 @@
-part of 'app_bloc.dart';
+part of '../application.dart';
 
 abstract class AppState {
   const AppState();

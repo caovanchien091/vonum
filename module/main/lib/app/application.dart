@@ -1,17 +1,26 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
+import 'package:source/source.dart';
 import 'package:theme/theme.dart';
+
+part 'bloc/app_bloc.dart';
+
+part 'bloc/app_event.dart';
+
+part 'bloc/app_state.dart';
+
+part 'mixin/app_setting_mixin.dart';
+
+part 'mixin/app_navigator_mixin.dart';
 
 class Application extends StatefulWidget {
   final String initRoute;
   final GenerateRoute onGenerateRoute;
-  final GenerateRoute onUnknownRoute;
 
   const Application({
     Key? key,
     required this.initRoute,
     required this.onGenerateRoute,
-    required this.onUnknownRoute,
   }) : super(key: key);
 
   @override
@@ -22,7 +31,6 @@ class _ApplicationState extends State<Application> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override
@@ -31,7 +39,6 @@ class _ApplicationState extends State<Application> {
       // Route
       initialRoute: widget.initRoute,
       onGenerateRoute: widget.onGenerateRoute,
-      onUnknownRoute: widget.onUnknownRoute,
       // Theme
       theme: CustomTheme.light,
       darkTheme: CustomTheme.dark,

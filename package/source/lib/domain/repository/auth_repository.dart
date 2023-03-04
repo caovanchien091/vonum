@@ -7,4 +7,8 @@ abstract class AuthRepository {
   Future<NetworkResponse<SessionEntity>> login({
     AccountParam? param,
   });
+
+  SessionEntity readSession();
+
+  Future<bool> writeSession(SessionEntity session);
 }
