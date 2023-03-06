@@ -6,6 +6,8 @@ abstract class AuthRepository {
 
   Future<bool> writeSession(SessionEntity session);
 
+  Future<NetworkResponse<SessionEntity>> logout();
+
   Future<NetworkResponse<SessionEntity>> nonLogin();
 
   Future<NetworkResponse<SessionEntity>> login({

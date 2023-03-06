@@ -37,6 +37,16 @@ class AuthRepositoryImp extends AuthRepository {
   }
 
   @override
+  Future<NetworkResponse<SessionEntity>> logout() async {
+    return runNetworkGuarded(
+      run: () => _remote.logout(),
+      transform: (value) => SessionEntity.fromMap(
+        value.toMap(),
+      ),
+    );
+  }
+
+  @override
   Future<NetworkResponse<SessionEntity>> nonLogin() {
     return runNetworkGuarded(
       run: () => _remote.nonLogin(),

@@ -17,4 +17,9 @@ class AuthService {
     // TODO: implement loginWithAccount
     throw UnimplementedError();
   }
+
+  Future<SessionModel> logout() async {
+    // TODO: implement loginWithAccount
+    throw UnimplementedError();
+  }
 }
