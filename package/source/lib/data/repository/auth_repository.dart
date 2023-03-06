@@ -9,6 +9,22 @@ class AuthRepositoryImp extends AuthRepository {
   AuthRepositoryImp(this._remote, this._cache);
 
   @override
+  SessionEntity readSession() {
+    return SessionEntity.fromMap(
+      _cache.readSession().toMap(),
+    );
+  }
+
+  @override
+  Future<bool> writeSession(SessionEntity session) {
+    return _cache.saveSession(
+      SessionModel.fromMap(
+        session.toMap(),
+      ),
+    );
+  }
+
+  @override
   Future<NetworkResponse<SessionEntity>> login({
     AccountParam? param,
   }) async {
@@ -26,22 +42,6 @@ class AuthRepositoryImp extends AuthRepository {
       run: () => _remote.nonLogin(),
       transform: (value) => SessionEntity.fromMap(
         value.toMap(),
-      ),
-    );
-  }
-
-  @override
-  SessionEntity readSession() {
-    return SessionEntity.fromMap(
-      _cache.readSession().toMap(),
-    );
-  }
-
-  @override
-  Future<bool> writeSession(SessionEntity session) {
-    return _cache.saveSession(
-      SessionModel.fromMap(
-        session.toMap(),
       ),
     );
   }

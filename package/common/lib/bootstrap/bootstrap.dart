@@ -1,17 +1,21 @@
 import 'package:common/common.dart';
+import 'package:flutter/material.dart';
 
 abstract class Bootstrap {
   abstract EnvData envData;
   abstract List<RouteRegister> routes;
   abstract List<DependencyRegister> dependencies;
+  abstract List<BlocProvider> providers;
+
+  Widget onComplete(GenerateRoute onGenerate);
+
+  Injection get injection => Injection.I;
 
   void boot({
+    required AppEngine engine,
     required InitRoute initRoute,
-    required BootstrapComplete complete,
   }) async {
-    var injection = Injection.I;
-
-    await _register(injection);
+    await _register();
 
     for (var dependency in dependencies) {
       await dependency.register(
@@ -19,24 +23,27 @@ abstract class Bootstrap {
       );
     }
 
-    complete(
-      initRoute(injection),
-      (settings) {
-        for (var route in routes) {
-          var routePage = route.generate(
-            settings,
-            injection,
-          );
+    generateRoute(settings) {
+      for (var route in routes) {
+        var routePage = route.generate(
+          settings,
+          injection,
+        );
 
-          if (routePage != null) {
-            return routePage;
-          }
+        if (routePage != null) {
+          return routePage;
         }
-      },
+      }
+    }
+
+    engine(
+      onComplete(
+        generateRoute,
+      ),
     );
   }
 
-  Future _register(Injection injection) async {
+  Future _register() async {
     // Init Hive cache local
     await Hive.initFlutter().then(
       (value) => Hive.openBox(cacheName).then(
@@ -47,9 +54,11 @@ abstract class Bootstrap {
     );
 
     // Init Env data
-    injection.singleton(Env(
-      injection.get<Cache>(),
-      envData,
-    ));
+    injection.singleton(
+      () => Env(
+        injection.get<Cache>(),
+        envData,
+      ),
+    );
   }
 }

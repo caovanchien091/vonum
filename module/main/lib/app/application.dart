@@ -1,17 +1,8 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
-import 'package:source/source.dart';
+import 'package:main/main.dart';
 import 'package:theme/theme.dart';
-
-part 'bloc/app_bloc.dart';
-
-part 'bloc/app_event.dart';
-
-part 'bloc/app_state.dart';
-
-part 'mixin/app_setting_mixin.dart';
-
-part 'mixin/app_navigator_mixin.dart';
+import 'package:widget/widget.dart';
 
 class Application extends StatefulWidget {
   final String initRoute;
@@ -28,23 +19,35 @@ class Application extends StatefulWidget {
 }
 
 class _ApplicationState extends State<Application> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  AppBloc get _appBloc => context.read();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // Route
-      initialRoute: widget.initRoute,
-      onGenerateRoute: widget.onGenerateRoute,
-      // Theme
-      theme: CustomTheme.light,
-      darkTheme: CustomTheme.dark,
-      themeMode: ThemeMode.light,
-      // Debug
-      showSemanticsDebugger: false,
+    return CustomBloc(
+      bloc: _appBloc,
+      listener: _listener,
+      selectors: const [
+        AppUpdateState,
+      ],
+      builder: (context, state) {
+        return MaterialApp(
+          // Route
+          initialRoute: widget.initRoute,
+          onGenerateRoute: widget.onGenerateRoute,
+          // Theme
+          theme: CustomTheme.light,
+          darkTheme: CustomTheme.dark,
+          themeMode: ThemeMode.light,
+          // Debug
+          showSemanticsDebugger: false,
+        );
+      },
     );
+  }
+
+  void _listener(AppState previous, AppState current) {
+    if(current is AppNavigatorState) {
+
+    }
   }
 }

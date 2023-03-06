@@ -56,7 +56,7 @@ class Injection {
   }
 
   void singleton<T extends Object>(
-    T instance, {
+    FactoryFunc<T> instance, {
     String? instanceName,
     bool? signalsReady,
     DisposingFunc<T>? dispose,
@@ -65,7 +65,7 @@ class Injection {
       instanceName: instanceName,
     )) {
       GetIt.I.registerSingleton<T>(
-        instance,
+        instance(),
         instanceName: instanceName,
         signalsReady: signalsReady,
         dispose: dispose,

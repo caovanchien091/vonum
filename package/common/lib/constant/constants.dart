@@ -6,3 +6,4 @@ const String timeFormatKey = "time_format_key";
 const String sessionKey = "session_key";
 const String uuidKey = "uuid_key";
 const String themeKey = "theme_key";
+const String appInstallKey = "app_install_key";

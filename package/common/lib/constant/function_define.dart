@@ -7,9 +7,6 @@ typedef SingleParam<R, T> = R Function(T value);
 
 typedef GenerateRoute = Route? Function(RouteSettings settings);
 
-typedef InitRoute = String Function(Injection);
+typedef InitRoute = String Function(Env);
 
-typedef BootstrapComplete = Function(
-  String initRoute,
-  GenerateRoute onGenerate,
-);
+typedef AppEngine = Function(Widget);

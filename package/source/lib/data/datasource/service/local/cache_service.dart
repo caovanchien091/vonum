@@ -10,6 +10,10 @@ class CacheService {
     return _cache.readString(langKey) ?? _env.lang;
   }
 
+  String readTheme() {
+    return _cache.readString(langKey) ?? _env.lang;
+  }
+
   String readCurrency() {
     return _cache.readString(langKey) ?? _env.lang;
   }
@@ -18,8 +22,20 @@ class CacheService {
     return _cache.readString(langKey) ?? _env.lang;
   }
 
+  bool readAppInstall() {
+    return _cache.readBool(appInstallKey);
+  }
+
   Future<bool> writeLang(String lang) {
     return _cache.write(langKey, lang);
+  }
+
+  Future<bool> writeTheme(String themeName) {
+    return _cache.write(themeKey, themeName);
+  }
+
+  Future<bool> writeAppInstall(bool appInstall) {
+    return _cache.write(appInstallKey, appInstall);
   }
 
   Future<bool> writeCurrency(String currency) {

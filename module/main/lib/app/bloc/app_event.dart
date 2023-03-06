@@ -1,5 +1,7 @@
-part of '../application.dart';
+abstract class AppEvent {}
 
-abstract class AppEvent {
-  const AppEvent();
-}
+class AppInitEvent extends AppEvent {}
+
+class AppUpdateEvent extends AppEvent {}
+
+class AppVerifyEvent extends AppEvent {}

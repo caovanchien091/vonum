@@ -15,8 +15,10 @@ export 'entity/user_entity.dart';
 
 export 'param/auth/account_param.dart';
 
-// Usecase
+// Delegate
 // =============================================================================
 
-export 'usecase/application/app_setting_usecase.dart';
-export 'usecase/application/app_navigator_usecase.dart';
+export 'delegate/application/app_setting_delegate.dart';
+export 'delegate/route/route_delegate.dart';
+
+

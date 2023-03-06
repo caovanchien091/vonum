@@ -1,5 +1,6 @@
 import 'package:common/common.dart';
 import 'package:main/main.dart';
+import 'package:main/main_private.dart';
 import 'package:source/source.dart';
 
 class MainDependency extends DependencyRegister {
@@ -10,11 +11,22 @@ class MainDependency extends DependencyRegister {
   }
 
   Future<void> _mainRegister(Injection injection) async {
-    injection.singleton<AppBloc>(AppBloc());
+    injection.singleton<AppBloc>(
+      () => AppBloc(
+        injection.get(),
+        injection.get(),
+        injection.get(),
+      ),
+    );
   }
 
   Future<void> _dependencyRegister(Injection injection) async {
-    injection.factory<AppSettingUsecase>(() => injection.get<AppBloc>());
-    injection.factory<AppNavigatorUsecase>(() => injection.get<AppBloc>());
+    injection.factory<AppSettingDelegate>(
+      () => AppSettingDelegateImp(
+        injection.get(),
+        injection.get(),
+        injection.get(),
+      ),
+    );
   }
 }

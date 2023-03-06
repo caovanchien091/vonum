@@ -1,5 +1,7 @@
 import 'package:common/common.dart';
+import 'package:flutter/material.dart';
 import 'package:main/main.dart';
+import 'package:widget/widget.dart';
 import 'package:vonum/env/env.dart';
 import 'package:vonum/register/app_dependency.dart';
 import 'package:vonum/register/app_route.dart';
@@ -9,14 +11,30 @@ class AppBootstrap extends Bootstrap {
   EnvData envData = EnvDev();
 
   @override
-  List<DependencyRegister> dependencies = [
+  late List<DependencyRegister> dependencies = [
     AppDependency(),
-    MainDependency()
+    MainDependency(),
   ];
 
   @override
-  List<RouteRegister> routes = [
+  late List<RouteRegister> routes = [
     AppRoute(),
-    MainRoute()
+    MainRoute(),
   ];
+
+  @override
+  late List<BlocProvider> providers = [
+    BlocProvider<AppBloc>(create: (context) => injection.get()),
+  ];
+
+  @override
+  Widget onComplete(onGenerate) {
+    return MultiBlocProvider(
+      providers: providers,
+      child: Application(
+        initRoute: '/Launch',
+        onGenerateRoute: onGenerate,
+      ),
+    );
+  }
 }
